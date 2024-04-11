@@ -122,26 +122,43 @@ public class GameBoardPanel extends JPanel {
             // For debugging
             System.out.println("You clicked on (" + sourceCell.row + "," + sourceCell.col + ")");
 
-            // Left-click to reveal a cell; Right-click to plant/remove the flag.
-            if (e.getButton() == MouseEvent.BUTTON1) { // Left-button clicked
-                // [TODO 5] if you hit a mine, game over else reveal this cell
-                if (sourceCell.isMined) {
-                    System.out.println("Game Over");
-                    sourceCell.setText("*");
-                    newGame();
-                } else {
-                    revealCell(sourceCell.row, sourceCell.col);
+            if (sourceCell.isEnabled) {
+                // Left-click to reveal a cell; Right-click to plant/remove the flag.
+                if (e.getButton() == MouseEvent.BUTTON1) { // Left-button clicked
+                    // [TODO 5] if you hit a mine, game over else reveal this cell
+                    if (sourceCell.isMined) {
+                        System.out.println("Game Over");
+                        sourceCell.setText("*");
+                        // Display all mines
+                        for (int row = 0; row < ROWS; row++) {
+                            for (int col = 0; col < COLS; col++) {
+                                if (cells[row][col].isMined) {
+                                    cells[row][col].setText("*");
+                                    cells[row][col].isRevealed = true;
+                                }
+                                cells[row][col].setEnabled (false);
+                                cells[row][col].isEnabled = false;
+                            }
+                        }
+                    } else {
+                        revealCell(sourceCell.row, sourceCell.col);
+                    }
+                } else if (e.getButton() == MouseEvent.BUTTON3) { // right-button clicked
+                    // [TODO 6]
+                    // If this cell is flagged, remove the flag
+                    if (sourceCell.isFlagged) {
+                        sourceCell.setText("");
+                        sourceCell.isFlagged = false;
+                    } else {
+                        if (!sourceCell.isRevealed) {
+                        // unflagged unrevealed cell, flag the cell   
+                            sourceCell.setText("F");
+                            sourceCell.isFlagged = true;
+                        }
+                    }
                 }
-            } else if (e.getButton() == MouseEvent.BUTTON3) { // right-button clicked
-                // [TODO 6]
-                // If this cell is flagged, remove the flag
-                if (sourceCell.isFlagged) {
-                    sourceCell.setText("");
-                    sourceCell.isFlagged = false;
-                } else {
-                    sourceCell.setText("F");
-                    sourceCell.isFlagged = true;
-                }
+            } else {
+                return;
             }
 
             // [TODO 7] Check if the player has won, after revealing this cell

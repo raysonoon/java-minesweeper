@@ -20,6 +20,8 @@ public class Cell extends JButton {
    // Define properties (package-visible)
    /** The row and column number of the cell */
    int row, col;
+   /** Is enabled */
+   boolean isEnabled;
    /** Already revealed? */
    boolean isRevealed;
    /** Is a mine? */
@@ -38,6 +40,7 @@ public class Cell extends JButton {
 
    /** Reset this cell, ready for a new game */
    public void newGame(boolean isMined) {
+      this.isEnabled = true; // default
       this.isRevealed = false; // default
       this.isFlagged = false;  // default
       this.isMined = isMined;  // given
