@@ -15,8 +15,9 @@ public class MineSweeperMain extends JFrame {
     private static final long serialVersionUID = 1L; // to prevent serial warning
 
     // private variables
-    GameBoardPanel board = new GameBoardPanel();
-    JButton btnNewGame = new JButton("New Game");
+    private GameBoardPanel board = new GameBoardPanel();
+    private JPanel bottomPanel = new JPanel();
+    private JButton btnResetGame = new JButton("Reset Game");
 
     // Constructor to set up all the UI and game components
     public MineSweeperMain() {
@@ -24,9 +25,21 @@ public class MineSweeperMain extends JFrame {
         cp.setLayout(new BorderLayout()); // in 10x10 GridLayout
 
         cp.add(board, BorderLayout.CENTER);
+        
+        // Add panel to the south
+        cp.add(bottomPanel, BorderLayout.SOUTH);
 
-        // Add btnNewGame to the south to re-start the game
-        // ......
+        // Anonymous action listener for reset game
+        btnResetGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Create a new board
+                board.newGame();
+            }
+        });
+
+        // Add reset game button to panel
+        bottomPanel.add(btnResetGame);
 
         board.newGame();
 
@@ -34,17 +47,5 @@ public class MineSweeperMain extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // handle window-close button
         setTitle("Minesweeper");
         setVisible(true); // show it
-    }
-
-    // The entry main() method
-    public static void main(String[] args) {
-        // [TODO 1] Check Swing program template on how to run the constructor
-        // Run GUI codes in Event-Dispatching thread for thread-safety
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new MineSweeperMain(); // Let the constructor do the job
-            }
-        });
     }
 }

@@ -87,6 +87,8 @@ public class GameBoardPanel extends JPanel {
         cells[srcRow][srcCol].isRevealed = true;
         cells[srcRow][srcCol].paint(); // based on isRevealed
         if (numMines == 0) {
+            // Display nothing for cells with no neighbouring mines
+            cells[srcRow][srcCol].setText("");
             // Recursively reveal the 8 neighboring cells
             for (int row = srcRow - 1; row <= srcRow + 1; row++) {
                 for (int col = srcCol - 1; col <= srcCol + 1; col++) {
@@ -122,12 +124,12 @@ public class GameBoardPanel extends JPanel {
             // For debugging
             System.out.println("You clicked on (" + sourceCell.row + "," + sourceCell.col + ")");
 
-            if (sourceCell.isEnabled) {
+            // Click on enabled & unflagged cells only
+            if (sourceCell.isEnabled && !sourceCell.isFlagged) {
                 // Left-click to reveal a cell; Right-click to plant/remove the flag.
                 if (e.getButton() == MouseEvent.BUTTON1) { // Left-button clicked
                     // [TODO 5] if you hit a mine, game over else reveal this cell
                     if (sourceCell.isMined) {
-                        System.out.println("Game Over");
                         sourceCell.setText("*");
                         // Display all mines
                         for (int row = 0; row < ROWS; row++) {
@@ -140,8 +142,10 @@ public class GameBoardPanel extends JPanel {
                                 cells[row][col].isEnabled = false;
                             }
                         }
+                        JOptionPane.showMessageDialog(null, "Game Over!");
                     } else {
                         revealCell(sourceCell.row, sourceCell.col);
+                        cells[sourceCell.row][sourceCell.col].removeMouseListener(this);
                     }
                 } else if (e.getButton() == MouseEvent.BUTTON3) { // right-button clicked
                     // [TODO 6]
@@ -163,7 +167,7 @@ public class GameBoardPanel extends JPanel {
 
             // [TODO 7] Check if the player has won, after revealing this cell
             if (hasWon()) {
-                System.out.println("You won!");
+                JOptionPane.showMessageDialog(null, "You won!");
             }
 
         }
