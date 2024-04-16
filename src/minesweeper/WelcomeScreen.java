@@ -9,10 +9,10 @@ public class WelcomeScreen extends JFrame {
     private static final long serialVersionUID = 1L; // to prevent serial warning
 
     // Private variables
+    private JLabel welcomeText = new JLabel("💣 Minesweeper 💣", SwingConstants.CENTER);
     private JButton btnNewGame = new JButton("New Game");
     private JButton btnExitGame = new JButton("Exit");
     private JPanel welcomePanel = new JPanel();
-    private JLabel welcomeText = new JLabel();
 
     // Public constructor
     public WelcomeScreen() {
@@ -22,30 +22,34 @@ public class WelcomeScreen extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // Set panel layout
-        welcomePanel.setLayout(new GridLayout(2, 1));
+        welcomePanel.setLayout(new GridLayout(3, 1));
+
+        // Set welcome text font size
+        welcomeText.setFont(new Font("Monospaced", Font.BOLD, 30));
 
         // New Game button anonymous listener
-        btnNewGame.addMouseListener(new MouseAdapter() {
+        btnNewGame.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 // Close the welcome screen window
                 dispose();
 
-                // Open the Minesweeper game window
-                new MineSweeperMain();
+                // Open the game mode window
+                new GameMode();
             }
         });
 
         // Exit Game button anonymous listener
-        btnExitGame.addMouseListener(new MouseAdapter() {
+        btnExitGame.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 // Close the welcome screen window
                 dispose();
             }
         });
 
-        // Add buttons to welcome panel
+        // Add buttons & label to welcome panel
+        welcomePanel.add(welcomeText);
         welcomePanel.add(btnNewGame);
         welcomePanel.add(btnExitGame);
 

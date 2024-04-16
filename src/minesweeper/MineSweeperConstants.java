@@ -4,7 +4,9 @@ package minesweeper;
  */
 public class MineSweeperConstants {
    /** Number of rows */
-   public static final int ROWS = 10;
+   public static int ROWS;
    /** Number of columns */
-   public static final int COLS = 10;
+   public static int COLS;
+   /** Number of mines */
+   public static int MINES;
 }

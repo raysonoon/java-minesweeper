@@ -3,22 +3,22 @@ package minesweeper;
 //  ROWS (shorthand) instead of MineSweeperConstants.ROWS
 import static minesweeper.MineSweeperConstants.ROWS;
 import static minesweeper.MineSweeperConstants.COLS;
+import static minesweeper.MineSweeperConstants.MINES;
 import java.util.Random;
 /**
  * Define the locations of mines
  */
 public class MineMap {
    // package access
-   int numMines;
-   boolean[][] isMined = new boolean[ROWS][COLS];
-         // default is false
+   int numMines = MINES;
+   boolean[][] isMined = new boolean[ROWS][COLS]; // default is false
 
    // Constructor
    public MineMap() {
       super();
    }
 
-   // Allow user to change the rows and cols
+   // Generate new mine map method with specified no. of mines placed randomly
    public void newMineMap(int numMines) {
       this.numMines = numMines;
 

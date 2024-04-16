@@ -38,7 +38,7 @@ public class Cell extends JButton {
       super.setFont(FONT_NUMBERS);
    }
 
-   /** Reset this cell, ready for a new game */
+   // Reset this cell, ready for a new game
    public void newGame(boolean isMined) {
       this.isEnabled = true; // default
       this.isRevealed = false; // default
@@ -48,7 +48,7 @@ public class Cell extends JButton {
       super.setText("");       // display blank
       paint();
    }
-
+   
    /** Paint itself based on its status */
    public void paint() {
       super.setForeground(isRevealed? FG_REVEALED: FG_NOT_REVEALED);

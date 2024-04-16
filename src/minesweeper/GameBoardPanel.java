@@ -1,10 +1,12 @@
 package minesweeper;
 
+import static minesweeper.MineSweeperConstants.ROWS;
+import static minesweeper.MineSweeperConstants.COLS;
+import static minesweeper.MineSweeperConstants.MINES;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import static minesweeper.MineSweeperConstants.ROWS;
-import static minesweeper.MineSweeperConstants.COLS;
 
 public class GameBoardPanel extends JPanel {
     private static final long serialVersionUID = 1L; // to prevent serial warning
@@ -17,8 +19,12 @@ public class GameBoardPanel extends JPanel {
     // Define properties (package-visible)
     /** The game board composes of ROWSxCOLS cells */
     Cell cells[][] = new Cell[ROWS][COLS];
+
     /** Number of mines */
-    int numMines = 10;
+    int numMines = MINES;
+
+    // Boolean first click
+    // private boolean isFirstClick = true;
 
     /** Constructor */
     public GameBoardPanel() {
@@ -123,11 +129,11 @@ public class GameBoardPanel extends JPanel {
             Cell sourceCell = (Cell) e.getSource();
             // For debugging
             System.out.println("You clicked on (" + sourceCell.row + "," + sourceCell.col + ")");
-
-            // Click on enabled & unflagged cells only
-            if (sourceCell.isEnabled && !sourceCell.isFlagged) {
-                // Left-click to reveal a cell; Right-click to plant/remove the flag.
-                if (e.getButton() == MouseEvent.BUTTON1) { // Left-button clicked
+            // Click on enabled cells only
+            if (sourceCell.isEnabled) {
+                // Left-click to reveal a cell that is unflagged; Right-click to plant/remove
+                // the flag.
+                if (e.getButton() == MouseEvent.BUTTON1 && !sourceCell.isFlagged) { // Left-button clicked
                     // [TODO 5] if you hit a mine, game over else reveal this cell
                     if (sourceCell.isMined) {
                         sourceCell.setText("*");
@@ -138,14 +144,13 @@ public class GameBoardPanel extends JPanel {
                                     cells[row][col].setText("*");
                                     cells[row][col].isRevealed = true;
                                 }
-                                cells[row][col].setEnabled (false);
+                                cells[row][col].setEnabled(false);
                                 cells[row][col].isEnabled = false;
                             }
                         }
                         JOptionPane.showMessageDialog(null, "Game Over!");
                     } else {
                         revealCell(sourceCell.row, sourceCell.col);
-                        cells[sourceCell.row][sourceCell.col].removeMouseListener(this);
                     }
                 } else if (e.getButton() == MouseEvent.BUTTON3) { // right-button clicked
                     // [TODO 6]
@@ -155,13 +160,14 @@ public class GameBoardPanel extends JPanel {
                         sourceCell.isFlagged = false;
                     } else {
                         if (!sourceCell.isRevealed) {
-                        // unflagged unrevealed cell, flag the cell   
+                            // unflagged unrevealed cell, flag the cell
                             sourceCell.setText("F");
                             sourceCell.isFlagged = true;
                         }
                     }
                 }
             } else {
+                // Disable click on disabled cells
                 return;
             }
 

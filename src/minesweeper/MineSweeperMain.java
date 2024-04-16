@@ -35,6 +35,7 @@ public class MineSweeperMain extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Create a new board
                 board.newGame();
+                //board.isFirstClick = false;
             }
         });
 
