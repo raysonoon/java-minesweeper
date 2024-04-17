@@ -43,8 +43,9 @@ public class WelcomeScreen extends JFrame {
         btnExitGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Close the welcome screen window
-                dispose();
+                // Terminate the program
+                //dispose();
+                System.exit(0);
             }
         });
 
@@ -60,6 +61,9 @@ public class WelcomeScreen extends JFrame {
 
     // The entry main() method
     public static void main(String[] args) {
+        // Play background music
+        MusicPlayer.playBackgroundMusic("music/minesweeper-background-music.wav");
+
         // [TODO 1] Check Swing program template on how to run the constructor
         // Run GUI codes in Event-Dispatching thread for thread-safety
         SwingUtilities.invokeLater(new Runnable() {

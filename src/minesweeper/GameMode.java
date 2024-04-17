@@ -14,9 +14,9 @@ public class GameMode extends JFrame {
 
     // Private variables
     private JLabel gameModeText = new JLabel("Select Difficulty", SwingConstants.CENTER);
-    private JButton btnEasy = new JButton("Easy");
-    private JButton btnMedium = new JButton("Medium");
-    private JButton btnHard = new JButton("Hard");
+    private JButton btnEasy = new JButton("Easy (10 x 10, 10 mines)");
+    private JButton btnMedium = new JButton("Medium (16 x 16, 40 mines)");
+    private JButton btnHard = new JButton("Hard (16 x 30, 99 mines)");
     private JPanel gameModePanel = new JPanel();
 
     // package access variables
@@ -34,6 +34,7 @@ public class GameMode extends JFrame {
 
         // Set welcome text font size
         gameModeText.setFont(new Font("Monospaced", Font.BOLD, 30));
+
 
         // Easy button anonymous listener
         btnEasy.addActionListener(new ActionListener() {
@@ -88,6 +89,7 @@ public class GameMode extends JFrame {
                 new MineSweeperMain();
             }
         });
+
 
         // Add buttons & label to game mode panel
         gameModePanel.add(gameModeText);

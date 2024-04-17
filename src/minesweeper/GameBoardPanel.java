@@ -15,8 +15,8 @@ public class GameBoardPanel extends JPanel {
 
     // Define named constants for UI sizes
     public static final int CELL_SIZE = 60; // Cell width and height, in pixels
-    public static final int CANVAS_WIDTH = CELL_SIZE * COLS; // Game board width/height
-    public static final int CANVAS_HEIGHT = CELL_SIZE * ROWS;
+    public static int CANVAS_WIDTH = CELL_SIZE * COLS; // Game board width/height
+    public static int CANVAS_HEIGHT = CELL_SIZE * ROWS;
 
     // Define properties (package-visible)
     /** The game board composes of ROWSxCOLS cells */
@@ -24,6 +24,10 @@ public class GameBoardPanel extends JPanel {
 
     /** Number of mines */
     int numMines = MINES;
+    // Number of flags
+    int numFlags = MINES;
+
+    MusicPlayer soundEffectMusicPlayer = new MusicPlayer();
 
     // Boolean first click
     // private boolean isFirstClick = true;
@@ -56,13 +60,20 @@ public class GameBoardPanel extends JPanel {
         super.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
     }
 
+    // Method to update the preferred UI size
+    public void updatePreferredSize() {
+        CANVAS_WIDTH = CELL_SIZE * COLS;
+        CANVAS_HEIGHT = CELL_SIZE * ROWS;
+        super.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT)); // Inherited method from JPanel superclass
+        revalidate(); // Ensure proper layout
+    }
+
     // Initialize and re-initialize a new game
     public void newGame() {
 
         // Get a new mine map
         MineMap mineMap = new MineMap();
         mineMap.newMineMap(numMines);
-  
 
         // Reset cells, mines, and flags
         for (int row = 0; row < ROWS; row++) {
@@ -71,6 +82,7 @@ public class GameBoardPanel extends JPanel {
                 cells[row][col].newGame(mineMap.isMined[row][col]);
             }
         }
+        numFlags = MINES;
 
         // Get starting pt of game (random zero cell)
         findRandomZeroCell();
@@ -96,12 +108,13 @@ public class GameBoardPanel extends JPanel {
         int randomRow, randomCol;
         Random random = new Random();
 
-        // Keep finding random cells until zero cell is found
+        // Keep finding cells randomly until zero cell is found
         do {
             randomRow = random.nextInt(ROWS);
             randomCol = random.nextInt(COLS);
         } while (getSurroundingMines(randomRow, randomCol) != 0);
 
+        // Set zero cell to yellow
         cells[randomRow][randomCol].setBackground(Color.YELLOW);
     }
 
@@ -112,6 +125,7 @@ public class GameBoardPanel extends JPanel {
         // Set cell text to no. of mines
         cells[srcRow][srcCol].setText(numMines + "");
         cells[srcRow][srcCol].isRevealed = true;
+        cells[srcRow][srcCol].isFlagged = false;
         cells[srcRow][srcCol].paint(); // based on isRevealed
         if (numMines == 0) {
             // Display nothing for cells with no neighbouring mines
@@ -169,7 +183,10 @@ public class GameBoardPanel extends JPanel {
                                 cells[row][col].isEnabled = false;
                             }
                         }
+                        MusicPlayer.stop();
+                        soundEffectMusicPlayer.playEndMusic("music/minesweeper-bomb-explode.wav");
                         JOptionPane.showMessageDialog(null, "Game Over!");
+                        MusicPlayer.playBackgroundMusic("music/minesweeper-background-music.wav");
                     } else {
                         revealCell(sourceCell.row, sourceCell.col);
                     }
@@ -179,11 +196,13 @@ public class GameBoardPanel extends JPanel {
                     if (sourceCell.isFlagged) {
                         sourceCell.setText("");
                         sourceCell.isFlagged = false;
+                        numFlags += 1;
                     } else {
                         if (!sourceCell.isRevealed) {
-                            // unflagged unrevealed cell, flag the cell
+                            // If this cell is unflagged & unrevealed, flag the cell
                             sourceCell.setText("🚩");
                             sourceCell.isFlagged = true;
+                            numFlags -= 1;
                         }
                     }
                 }
@@ -194,7 +213,10 @@ public class GameBoardPanel extends JPanel {
 
             // [TODO 7] Check if the player has won, after revealing this cell
             if (hasWon()) {
+                MusicPlayer.stop();
+                soundEffectMusicPlayer.playEndMusic("music/minesweeper-win.wav");
                 JOptionPane.showMessageDialog(null, "You won!");
+                MusicPlayer.playBackgroundMusic("music/minesweeper-background-music.wav");
             }
 
         }

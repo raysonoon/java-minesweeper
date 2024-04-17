@@ -18,6 +18,10 @@ public class MineSweeperMain extends JFrame {
     private GameBoardPanel board = new GameBoardPanel();
     private JPanel bottomPanel = new JPanel();
     private JButton btnResetGame = new JButton("Reset Game");
+    private JButton btnDifficulty = new JButton("Change Difficulty");
+    private JButton btnFlags = new JButton("Flags Left");
+    private JToggleButton btnMusic = new JToggleButton("🔊");
+    private boolean isPaused = false;
 
     // Constructor to set up all the UI and game components
     public MineSweeperMain() {
@@ -25,7 +29,7 @@ public class MineSweeperMain extends JFrame {
         cp.setLayout(new BorderLayout()); // in 10x10 GridLayout
 
         cp.add(board, BorderLayout.CENTER);
-        
+
         // Add panel to the south
         cp.add(bottomPanel, BorderLayout.SOUTH);
 
@@ -35,13 +39,53 @@ public class MineSweeperMain extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Create a new board
                 board.newGame();
-                //board.isFirstClick = false;
             }
         });
 
-        // Add reset game button to panel
-        bottomPanel.add(btnResetGame);
+        // Anonymous action listener for changing difficulty
+        btnDifficulty.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
+                // Close minesweeper game window
+                dispose();
+
+                // New game mode window
+                new GameMode();
+            }
+        });
+
+        // Anonymous action listener for displaying flags left
+        btnFlags.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Flags Left: " + board.numFlags);
+            }
+        });
+
+        // Anonymous action listener for muting background music
+        btnMusic.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Toggle when clicked
+                isPaused = !isPaused;
+                if (isPaused) {
+                    MusicPlayer.stop();
+                    btnMusic.setText("🔇");
+                } else {
+                    MusicPlayer.play();
+                    btnMusic.setText("🔊");
+                }
+            }
+        });
+
+        // Add game buttons to panel
+        bottomPanel.add(btnResetGame);
+        bottomPanel.add(btnDifficulty);
+        bottomPanel.add(btnFlags);
+        bottomPanel.add(btnMusic);
+
+        board.updatePreferredSize();
         board.newGame();
 
         pack(); // Pack the UI components, instead of setSize()
