@@ -40,7 +40,7 @@ public class MineMap {
       }
 
       /*// Hardcoded for illustration and testing, assume numMines=10
-      isMined[0][0] = true;S
+      isMined[0][0] = true;
       isMined[5][2] = true;
       isMined[9][5] = true;
       isMined[6][7] = true;

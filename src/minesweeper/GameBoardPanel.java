@@ -4,6 +4,8 @@ import static minesweeper.MineSweeperConstants.ROWS;
 import static minesweeper.MineSweeperConstants.COLS;
 import static minesweeper.MineSweeperConstants.MINES;
 
+import java.util.Random;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -56,9 +58,11 @@ public class GameBoardPanel extends JPanel {
 
     // Initialize and re-initialize a new game
     public void newGame() {
+
         // Get a new mine map
         MineMap mineMap = new MineMap();
         mineMap.newMineMap(numMines);
+  
 
         // Reset cells, mines, and flags
         for (int row = 0; row < ROWS; row++) {
@@ -67,6 +71,9 @@ public class GameBoardPanel extends JPanel {
                 cells[row][col].newGame(mineMap.isMined[row][col]);
             }
         }
+
+        // Get starting pt of game (random zero cell)
+        findRandomZeroCell();
     }
 
     // Return the number of mines [0, 8] in the 8 neighboring cells
@@ -85,10 +92,24 @@ public class GameBoardPanel extends JPanel {
         return numMines;
     }
 
+    private void findRandomZeroCell() {
+        int randomRow, randomCol;
+        Random random = new Random();
+
+        // Keep finding random cells until zero cell is found
+        do {
+            randomRow = random.nextInt(ROWS);
+            randomCol = random.nextInt(COLS);
+        } while (getSurroundingMines(randomRow, randomCol) != 0);
+
+        cells[randomRow][randomCol].setBackground(Color.YELLOW);
+    }
+
     // Reveal the cell at (srcRow, srcCol)
     // If this cell has 0 mines, reveal the 8 neighboring cells recursively
     private void revealCell(int srcRow, int srcCol) {
         int numMines = getSurroundingMines(srcRow, srcCol);
+        // Set cell text to no. of mines
         cells[srcRow][srcCol].setText(numMines + "");
         cells[srcRow][srcCol].isRevealed = true;
         cells[srcRow][srcCol].paint(); // based on isRevealed
@@ -136,12 +157,12 @@ public class GameBoardPanel extends JPanel {
                 if (e.getButton() == MouseEvent.BUTTON1 && !sourceCell.isFlagged) { // Left-button clicked
                     // [TODO 5] if you hit a mine, game over else reveal this cell
                     if (sourceCell.isMined) {
-                        sourceCell.setText("*");
+                        sourceCell.setText("💣");
                         // Display all mines
                         for (int row = 0; row < ROWS; row++) {
                             for (int col = 0; col < COLS; col++) {
                                 if (cells[row][col].isMined) {
-                                    cells[row][col].setText("*");
+                                    cells[row][col].setText("💣");
                                     cells[row][col].isRevealed = true;
                                 }
                                 cells[row][col].setEnabled(false);
@@ -161,7 +182,7 @@ public class GameBoardPanel extends JPanel {
                     } else {
                         if (!sourceCell.isRevealed) {
                             // unflagged unrevealed cell, flag the cell
-                            sourceCell.setText("F");
+                            sourceCell.setText("🚩");
                             sourceCell.isFlagged = true;
                         }
                     }

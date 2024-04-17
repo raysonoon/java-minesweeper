@@ -11,7 +11,7 @@ public class Cell extends JButton {
 
    // Define named constants for JButton's colors and fonts
    //  to be chosen based on cell's state
-   public static final Color BG_NOT_REVEALED = Color.GREEN;
+   public static final Color BG_NOT_REVEALED = Color.LIGHT_GRAY;
    public static final Color FG_NOT_REVEALED = Color.RED;    // flag, mines
    public static final Color BG_REVEALED = Color.DARK_GRAY;
    public static final Color FG_REVEALED = Color.YELLOW; // number of mines
@@ -49,9 +49,32 @@ public class Cell extends JButton {
       paint();
    }
    
-   /** Paint itself based on its status */
+   /** Paint itself based on its revealed status */
    public void paint() {
-      super.setForeground(isRevealed? FG_REVEALED: FG_NOT_REVEALED);
-      super.setBackground(isRevealed? BG_REVEALED: BG_NOT_REVEALED);
+      if (!isRevealed) {
+         super.setForeground(FG_NOT_REVEALED);
+         super.setBackground(BG_NOT_REVEALED);
+      } else {
+      super.setBackground(BG_REVEALED);
+      int numMines = Integer.parseInt(getText());
+      switch (numMines) {
+         case 1:
+            super.setForeground(Color.BLUE);
+            break;
+         case 2:
+            super.setForeground(Color.GREEN);
+            break;
+         case 3:
+            super.setForeground(Color.RED);
+            break;
+         case 4:
+            super.setForeground(Color.MAGENTA);
+            break;
+
+         default:
+            super.setForeground(FG_REVEALED);
+            break;
+         }
+      }
    }
 }
