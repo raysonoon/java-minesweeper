@@ -20,7 +20,7 @@ public class MineSweeperMain extends JFrame {
     private JButton btnResetGame = new JButton("Reset Game");
     private JButton btnDifficulty = new JButton("Change Difficulty");
     private JButton btnFlags = new JButton("Flags Left");
-    private JToggleButton btnMusic = new JToggleButton("🔊");
+    private JButton btnMusic = new JButton("🔊");
     private boolean isPaused = false;
 
     // Constructor to set up all the UI and game components
@@ -39,6 +39,11 @@ public class MineSweeperMain extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Create a new board
                 board.newGame();
+
+                if (MusicPlayer.clip == null) {
+                    MusicPlayer.playBackgroundMusic("music/minesweeper-background-music.wav");
+                }
+
             }
         });
 
@@ -73,6 +78,9 @@ public class MineSweeperMain extends JFrame {
                     MusicPlayer.stop();
                     btnMusic.setText("🔇");
                 } else {
+                    if (MusicPlayer.clip == null) {
+                        MusicPlayer.playBackgroundMusic("music/minesweeper-background-music.wav");
+                    }
                     MusicPlayer.play();
                     btnMusic.setText("🔊");
                 }

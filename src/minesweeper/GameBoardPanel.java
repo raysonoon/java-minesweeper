@@ -186,7 +186,7 @@ public class GameBoardPanel extends JPanel {
                         MusicPlayer.stop();
                         soundEffectMusicPlayer.playEndMusic("music/minesweeper-bomb-explode.wav");
                         JOptionPane.showMessageDialog(null, "Game Over!");
-                        MusicPlayer.playBackgroundMusic("music/minesweeper-background-music.wav");
+                        MusicPlayer.clip = null;
                     } else {
                         revealCell(sourceCell.row, sourceCell.col);
                     }
@@ -216,7 +216,7 @@ public class GameBoardPanel extends JPanel {
                 MusicPlayer.stop();
                 soundEffectMusicPlayer.playEndMusic("music/minesweeper-win.wav");
                 JOptionPane.showMessageDialog(null, "You won!");
-                MusicPlayer.playBackgroundMusic("music/minesweeper-background-music.wav");
+                MusicPlayer.clip = null;
             }
 
         }

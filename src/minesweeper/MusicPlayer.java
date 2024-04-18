@@ -64,6 +64,7 @@ public class MusicPlayer {
 
     // stop method
     public static void stop() {
+        if (clip != null)
         clip.stop();
     }
 }
