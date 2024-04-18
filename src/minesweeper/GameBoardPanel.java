@@ -25,9 +25,7 @@ public class GameBoardPanel extends JPanel {
     /** Number of mines */
     int numMines = MINES;
     // Number of flags
-    int numFlags = MINES;
-
-    MusicPlayer soundEffectMusicPlayer = new MusicPlayer();
+    int numFlags = MINES;;
 
     // Boolean first click
     // private boolean isFirstClick = true;
@@ -44,11 +42,12 @@ public class GameBoardPanel extends JPanel {
             }
         }
 
-        // Allocate a common listener as the MouseEvent listener for all the Cells
-        // (JButtons)
+        // Allocate a common listener as the MouseEvent listener for all the Cells (JButtons)
+        // TODO 3
         CellMouseListener listener = new CellMouseListener();
 
         // Every cell adds this common listener
+        // TODO 4
         for (int row = 0; row < ROWS; ++row) {
             for (int col = 0; col < COLS; ++col) {
                 cells[row][col].addMouseListener(listener); // For all rows and cols
@@ -158,6 +157,7 @@ public class GameBoardPanel extends JPanel {
     }
 
     // Define a Listener Inner Class
+    // TODO 2
     private class CellMouseListener extends MouseAdapter {
         @Override
         public void mouseClicked(MouseEvent e) { // Get the source object that fired the Event
@@ -184,7 +184,7 @@ public class GameBoardPanel extends JPanel {
                             }
                         }
                         MusicPlayer.stop();
-                        soundEffectMusicPlayer.playEndMusic("music/minesweeper-bomb-explode.wav");
+                        MusicPlayer.playEndMusic("music/minesweeper-bomb-explode.wav");
                         JOptionPane.showMessageDialog(null, "Game Over!");
                         MusicPlayer.clip = null;
                     } else {
@@ -214,7 +214,7 @@ public class GameBoardPanel extends JPanel {
             // [TODO 7] Check if the player has won, after revealing this cell
             if (hasWon()) {
                 MusicPlayer.stop();
-                soundEffectMusicPlayer.playEndMusic("music/minesweeper-win.wav");
+                MusicPlayer.playEndMusic("music/minesweeper-win.wav");
                 JOptionPane.showMessageDialog(null, "You won!");
                 MusicPlayer.clip = null;
             }

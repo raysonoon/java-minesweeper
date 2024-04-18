@@ -6,7 +6,6 @@ import java.io.File;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-//import javax.sound.sampled.FloatControl;
 
 public class MusicPlayer {
 
@@ -37,7 +36,7 @@ public class MusicPlayer {
     }
 
     // playEndMusic method
-    public void playEndMusic(String location) {
+    public static void playEndMusic(String location) {
         try {
             File musicPath = new File(location);
 

@@ -19,9 +19,6 @@ public class GameMode extends JFrame {
     private JButton btnHard = new JButton("Hard (16 x 30, 99 mines)");
     private JPanel gameModePanel = new JPanel();
 
-    // package access variables
-    static String gameModeString;
-
     // Public constructor
     public GameMode() {
         // Set frame properties
@@ -40,7 +37,6 @@ public class GameMode extends JFrame {
         btnEasy.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gameModeString = "easy";
                 // 10 x 10 grid, 10 mines
                 ROWS = 10;
                 COLS = 10;
@@ -58,7 +54,6 @@ public class GameMode extends JFrame {
         btnMedium.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gameModeString = "medium";
                 // 16 x 16 grid, 40 mines
                 ROWS = 16;
                 COLS = 16;
@@ -76,7 +71,6 @@ public class GameMode extends JFrame {
         btnHard.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gameModeString = "hard";
                 // 16 x 30 grid, 99 mines
                 ROWS = 16;
                 COLS = 30;
