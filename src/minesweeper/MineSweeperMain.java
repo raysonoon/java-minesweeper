@@ -42,7 +42,7 @@ public class MineSweeperMain extends JFrame {
                 board.newGame();
 
                 if (MusicPlayer.clip == null) {
-                    MusicPlayer.playEndMusic("music/minesweeper-background-music.wav");
+                    MusicPlayer.playBackgroundMusic("music/minesweeper-background-music.wav");
                 }
 
             }
@@ -80,7 +80,7 @@ public class MineSweeperMain extends JFrame {
                     btnMusic.setText("🔇");
                 } else {
                     if (MusicPlayer.clip == null) {
-                        MusicPlayer.playEndMusic("music/minesweeper-background-music.wav");
+                        MusicPlayer.playBackgroundMusic("music/minesweeper-background-music.wav");
                     } else {
                     MusicPlayer.play();
                     }
