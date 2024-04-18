@@ -18,6 +18,8 @@ public class GameBoardPanel extends JPanel {
     public static int CANVAS_WIDTH = CELL_SIZE * COLS; // Game board width/height
     public static int CANVAS_HEIGHT = CELL_SIZE * ROWS;
 
+    private MusicPlayer soundMusicPlayer = new MusicPlayer();
+    
     // Define properties (package-visible)
     /** The game board composes of ROWSxCOLS cells */
     Cell cells[][] = new Cell[ROWS][COLS];
@@ -183,10 +185,9 @@ public class GameBoardPanel extends JPanel {
                                 cells[row][col].isEnabled = false;
                             }
                         }
-                        MusicPlayer.stop();
-                        MusicPlayer.playEndMusic("music/minesweeper-bomb-explode.wav");
+                        // Play end music
+                        soundMusicPlayer.playEndMusic("music/minesweeper-bomb-explode.wav");
                         JOptionPane.showMessageDialog(null, "Game Over!");
-                        MusicPlayer.clip = null;
                     } else {
                         revealCell(sourceCell.row, sourceCell.col);
                     }
@@ -213,10 +214,8 @@ public class GameBoardPanel extends JPanel {
 
             // [TODO 7] Check if the player has won, after revealing this cell
             if (hasWon()) {
-                MusicPlayer.stop();
-                MusicPlayer.playEndMusic("music/minesweeper-win.wav");
+                soundMusicPlayer.playEndMusic("music/minesweeper-win.wav");
                 JOptionPane.showMessageDialog(null, "You won!");
-                MusicPlayer.clip = null;
             }
 
         }

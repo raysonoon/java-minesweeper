@@ -21,7 +21,7 @@ public class MineSweeperMain extends JFrame {
     private JButton btnDifficulty = new JButton("Change Difficulty");
     private JButton btnFlags = new JButton("Flags Left");
     private JButton btnMusic = new JButton("🔊");
-
+    
     private boolean isPaused = false;
 
     // Constructor to set up all the UI and game components
@@ -34,17 +34,16 @@ public class MineSweeperMain extends JFrame {
         // Add panel to the south
         cp.add(bottomPanel, BorderLayout.SOUTH);
 
+        //if (!isPaused) {
+        //   MusicPlayer.playBackgroundMusic();
+        //}
+
         // Anonymous action listener for reset game
         btnResetGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Create a new board
                 board.newGame();
-
-                if (MusicPlayer.clip == null) {
-                    MusicPlayer.playBackgroundMusic("music/minesweeper-background-music.wav");
-                }
-
             }
         });
 
@@ -75,15 +74,17 @@ public class MineSweeperMain extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Toggle when clicked
                 isPaused = !isPaused;
+                // Pause the music
                 if (isPaused) {
-                    MusicPlayer.stop();
+                    MusicPlayer.stopBackgroundMusic();
                     btnMusic.setText("🔇");
+                // if no music is playing, play new background music else continue background music
                 } else {
-                    if (MusicPlayer.clip == null) {
-                        MusicPlayer.playBackgroundMusic("music/minesweeper-background-music.wav");
-                    } else {
-                    MusicPlayer.play();
-                    }
+                    //if (MusicPlayer.backgroundClip == null) {
+                        //MusicPlayer.playBackgroundMusic("music/minesweeper-background-music.wav");
+                    //} else {
+                    MusicPlayer.playBackgroundMusic();
+                    //}
                     btnMusic.setText("🔊");
                 }
             }
